@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:02:55 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/10 15:03:17 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 10:15:18 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_phil	**init_phils(t_process *process);
 static pthread_mutex_t	*init_forks(t_process *process);
 static bool	init_mutex(t_process *process);
+static void	alloc_forks(t_phil *phil);
 
 /*Initialise the struct containing the timings of the process. Also triggers the 
 initialisation of the philosophers struct and initialises the mutex locks for the forks
@@ -52,18 +53,18 @@ static t_phil	**init_phils(t_process *process)
 	if (!phils)
 	{
 		printf("ERROR: unable to allocate memory \n");
-		return(0);
+		return(error_null(process));
 	}
 	i = 0;
 	while (i < process->no_phils)
 	{
 		phils[i] = malloc(sizeof(t_phil) * 1);
 		if (!phils[i])
-			return (0);
+			return(error_null(process));
 		if (pthread_mutex_init(&phils[i]->dinner_time_lock, 0) != 0)
 		{
 			printf("ERROR: unable to create mutex \n");
-			return (0);
+			return(error_null(process));
 		}
 		phils[i]->process = process;
 		phils[i]->id = i;
@@ -74,7 +75,7 @@ static t_phil	**init_phils(t_process *process)
 	return(phils);
 }
 
-/* Initialise all the mutex locks */
+/* Initialise the mutex locks for forks, status reporting and stopping the sim */
 static bool	init_mutex(t_process *process)
 {
 	process->fork_locks = init_forks(process);
@@ -83,12 +84,12 @@ static bool	init_mutex(t_process *process)
 	if (pthread_mutex_init(&process->stop_lock, 0) != 0)
 	{
 		printf("ERROR: unable to create mutext lock \n");
-		return (0);
+		return(error_null(process));
 	}
 	if (pthread_mutex_init(&process->write_lock, 0) != 0)
 	{
 		printf("ERROR: unable to create mutext lock \n");
-		return (0);
+		return(error_null(process));
 	}
 	return (true);
 }
@@ -103,7 +104,7 @@ static pthread_mutex_t	*init_forks(t_process *process)
 	if (!forks)
 	{
 		printf("ERROR: unable to allocate memory \n");
-		return(0);
+		return(error_null(process));
 	}
 	i = 0;
 	while (i < process->no_phils)
@@ -111,9 +112,23 @@ static pthread_mutex_t	*init_forks(t_process *process)
 		if (!pthread_mutex_init(&forks[i], 0) != 0)
 		{
 			printf("ERROR: unable to create mutext\n");
-			return (0);
+			return(error_null(process));
 		}
 		i++;
 	}
 	return (forks);
+}
+
+/*ensures deadlocks are avoided by having the even numbered philosophers 
+taking the fork on the left first, forcing the philosopher on the left to wait till
+both forks are free and therefore ensuring they all take turns eating*/
+static void	alloc_forks(t_phil *phil)
+{
+	phil->fork[0] = phil->id;
+	phil->fork[1] = (phil->id +1) % phil->process->no_phils;
+	if (phil->id % 2)
+	{
+		phil->fork[0] = (phil->id + 1) % phil->process->no_phils;
+		phil->fork[1] = phil->id;
+	}
 }

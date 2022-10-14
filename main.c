@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:01:25 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/13 12:01:54 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 10:52:02 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 		return(0);
 	}
 	if (!input_check(argc, argv))
-		return(0);
+		return(error_null(process));
 	process = init_process(argc, argv, 1);
 	if (!process)
 	{
@@ -35,9 +35,9 @@ int	main(int argc, char **argv)
 	if (!spaghetti_time(process))
 	{
 		printf("Something went wrong! \n");
-		return(0);
+		return(error_null(process));
 	}
-	spaghetti_done(process);
+	spaghetti_finished(process);
 	return(0);
 }
 
@@ -69,4 +69,20 @@ static bool	spaghetti_time(t_process *process)
 			}
 	}
 	return (true);
+}
+
+static void	spaghetti_finished(t_process *process)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < process->no_phils)
+	{
+		pthread_join(process->phils[i]->thread, NULL);
+		i++;
+	}
+	if (process->no_phils > 1)
+		pthread_join(process->death, NULL);
+	destroy_mutexes(process);
+	free_process(process);
 }
