@@ -6,14 +6,14 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:25:13 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:03:06 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:45:17 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phil.h"
 
-int	int_atoi(char **str);
-static bool	only_nums(char **str);
+int	int_atoi(char *str);
+static bool	only_nums(char *str);
 
 bool	input_check(int argc, char **argv)
 {
@@ -42,7 +42,7 @@ bool	input_check(int argc, char **argv)
 	return(true);
 }
 
-int	int_atoi(char **str)
+int	int_atoi(char *str)
 {
 	unsigned long long int	nb;
 	int						i;
@@ -60,7 +60,7 @@ int	int_atoi(char **str)
 	return ((int)nb);
 }
 
-static bool	only_nums(char **str)
+static bool	only_nums(char *str)
 {
 	int	i;
 

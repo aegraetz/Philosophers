@@ -6,13 +6,15 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:01:25 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 10:52:02 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:35:06 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phil.h"
 
-static bool	spaghetti_tiem(t_process *process);
+static bool	spaghetti_time(t_process *process);
+static void	spaghetti_finished(t_process *process);
+
 
 int	main(int argc, char **argv)
 {
@@ -25,7 +27,7 @@ int	main(int argc, char **argv)
 		return(0);
 	}
 	if (!input_check(argc, argv))
-		return(error_null(process));
+		return(0);
 	process = init_process(argc, argv, 1);
 	if (!process)
 	{
@@ -35,7 +37,7 @@ int	main(int argc, char **argv)
 	if (!spaghetti_time(process))
 	{
 		printf("Something went wrong! \n");
-		return(error_null(process));
+		return(0);
 	}
 	spaghetti_finished(process);
 	return(0);
@@ -55,7 +57,7 @@ static bool	spaghetti_time(t_process *process)
 							&philosophise, process->phils[i]) != 0)
 		{
 			printf("ERROR: Could not create thread.\n");
-			return (0);
+			return (false);
 		}
 		i++;
 	}
@@ -65,7 +67,7 @@ static bool	spaghetti_time(t_process *process)
 							&death, process) != 0)
 			{
 				printf("ERROR: Could not create thread.\n");
-				return (0);
+				return (false);
 			}
 	}
 	return (true);

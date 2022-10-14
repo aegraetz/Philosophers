@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 10:02:55 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 10:15:18 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:43:23 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static pthread_mutex_t	*init_forks(t_process *process)
 	i = 0;
 	while (i < process->no_phils)
 	{
-		if (!pthread_mutex_init(&forks[i], 0) != 0)
+		if (pthread_mutex_init(&forks[i], 0) != 0)
 		{
 			printf("ERROR: unable to create mutext\n");
 			return(error_null(process));

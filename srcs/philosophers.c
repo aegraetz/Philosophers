@@ -6,14 +6,14 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 09:49:07 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/13 12:00:39 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:49:33 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phil.h"
 
 static void	*one_phil(t_phil *phil);
-static	void	*think_time(t_phil *phil, bool t);
+static	void	think_time(t_phil *phil, bool t);
 static void	eat_n_sleep(t_phil *phil);
 
 /*philosophers thread - eat, sleep, think.*/
@@ -21,7 +21,7 @@ void	*philosophise(void *data)
 {
 	t_phil	*phil;
 
-	phil = (t_process *)data;
+	phil = (t_phil *)data;
 	if (phil->process->eat_freq == 0)
 		return (0);
 	pthread_mutex_lock(&phil->dinner_time_lock);
@@ -57,7 +57,7 @@ static void	*one_phil(t_phil *phil)
 /*between sleeping and eating, philosopher will think.
 Time spent thinking calculated depending on how long since phil's last meal, 
 t_2_eat & t_2_die to determine when phil will next be ready to eat*/
-static	void	*think_time(t_phil *phil, bool t)
+static	void	think_time(t_phil *phil, bool t)
 {
 	time_t	think; 
 

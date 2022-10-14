@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:00:04 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 10:10:39 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:49:17 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void	*free_process(t_process *process)
 				free (process->phils[i]);
 			i++;
 		}
-		free(process);
-		return(0);
+		free(process->phils);
 	}
+	free(process);
+	return(0);
 }
 
 void	*error_null(t_process *process)

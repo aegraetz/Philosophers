@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:22:04 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:11:27 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:49:42 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-typedef struct s_phil
-{
-	pthread_t		thread;
-	unsigned int	id;
-	unsigned int	fed;
-	unsigned int	fork[2];
-	pthread_mutex_t	dinner_time_lock;
-	time_t			last_fed;
-	t_process		*process;
-}	t_phil;
+typedef struct s_phil	t_phil;
 
 typedef struct s_process
 {
@@ -48,6 +39,17 @@ typedef struct s_process
 	t_phil			**phils;
 }	t_process;
 
+typedef struct s_phil
+{
+	pthread_t		thread;
+	unsigned int	id;
+	unsigned int	fed;
+	unsigned int	fork[2];
+	pthread_mutex_t	dinner_time_lock;
+	time_t			last_fed;
+	t_process		*process;
+}	t_phil;
+
 typedef enum e_status
 {
 	DIED = 0,
@@ -60,7 +62,7 @@ typedef enum e_status
 
 /* INPUT CHECKS */
 bool		input_check(int argc, char **argv);
-int			int_atoi(char **str);
+int			int_atoi(char *str);
 
 /* INITIALISING */
 t_process	*init_process(int argc, char **argv, int i);

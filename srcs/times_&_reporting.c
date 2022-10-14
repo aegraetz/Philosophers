@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:02:00 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/13 12:00:42 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:44:51 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	check_pause(t_process *process, time_t action)
 mutex locks included to avoid messages getting mixed up together*/
 void	status_report(t_phil *phil, bool death_stats, t_status status)
 {
-	pthread_mutext_lock(&phil->process->write_lock);
+	pthread_mutex_lock(&phil->process->write_lock);
 	if (sim_stopped(phil->process) == true && death_stats == false)
 	{
 		pthread_mutex_unlock(&phil->process->write_lock);

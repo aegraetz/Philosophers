@@ -6,13 +6,13 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 09:05:37 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:10:17 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/14 11:41:42 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phil.h"
 
-static void	stop_simulation(t_process *process, bool state);
+static void	stop_simulation_flag(t_process *process, bool state);
 static bool	process_ender(t_process *process);
 static bool	eternal_sleep(t_phil *phil);
 bool sim_stopped(t_process *process);
@@ -62,11 +62,11 @@ static bool	process_ender(t_process *process)
 		if (process->eat_freq != 1)
 			if (process->phils[i]->fed
 				< (unsigned int)process->eat_freq)
-				fed = false;
+				full = false;
 		pthread_mutex_unlock(&process->phils[i]->dinner_time_lock);
 		i++;
 	}
-	if (process->eat_freq != -1 && fed == true)
+	if (process->eat_freq != -1 && full == true)
 	{
 		stop_simulation_flag(process, true);
 		return (true);
