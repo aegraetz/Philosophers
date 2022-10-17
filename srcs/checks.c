@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:25:13 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:45:17 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/17 13:55:22 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ bool	input_check(int argc, char **argv)
 	while (i < argc)
 	{
 		if (!only_nums(argv[i]))
+		{
 			printf("ERROR: input must be numeric\n");
 			return(false);
+		}
 		nb = int_atoi(argv[i]);
 		if (i == 1 && (nb <= 0 || nb > 250))
 		{
