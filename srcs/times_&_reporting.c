@@ -6,7 +6,7 @@
 /*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 10:02:00 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:44:51 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/20 09:44:35 by anniegraetz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	status_report(t_phil *phil, bool death_stats, t_status status)
 	else if (status == EATING)
 		print_to_console(phil, "is stuffing his face");
 	else if (status == SLEEPING)
-		print_to_console(phil, "is sleeping philosophical dreams");
+		print_to_console(phil,"is dreaming philosophical dreams");
 	else if (status == THINKING)
 		print_to_console(phil, "is thinking philosophical thoughts");
 	else if (status == GOT_FORK_1 || status == GOT_FORK_2)
