@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   death.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
+/*   By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 09:05:37 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:41:42 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:49:17 by agraetz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 static void	stop_simulation_flag(t_process *process, bool state);
 static bool	process_ender(t_process *process);
 static bool	eternal_sleep(t_phil *phil);
-bool sim_stopped(t_process *process);
+bool		sim_stopped(t_process *process);
 
-/*a thread to check whether a philosopher must die or whether they haven't eaten enough.*/
+/*a thread to check whether a philosopher must die or 
+whether they have eaten enough.*/
 void	*death(void *data)
 {
 	t_process	*process;
 
 	process = (t_process *)data;
 	if (process->eat_freq == 0)
-		return(0);
+		return (0);
 	stop_simulation_flag(process, false);
 	delay_start(process->start_time);
-	while (true) //infinite loop until if condition is met
+	while (true)
 	{
 		if (process_ender(process) == true)
 			return (0);
@@ -45,8 +46,9 @@ static void	stop_simulation_flag(t_process *process, bool state)
 	pthread_mutex_unlock(&process->stop_lock);
 }
 
-/*checks the status of each philosopher to see whether they have either eaten enough or
-they need to die. Returns false unless all end conditions are met*/
+/*checks the status of each philosopher to see whether they have 
+either eaten enough or they need to die. Returns false unless 
+all end conditions are met*/
 static bool	process_ender(t_process *process)
 {
 	unsigned int	i;
@@ -58,7 +60,7 @@ static bool	process_ender(t_process *process)
 	{
 		pthread_mutex_lock(&process->phils[i]->dinner_time_lock);
 		if (eternal_sleep(process->phils[i]))
-			return(true);
+			return (true);
 		if (process->eat_freq != 1)
 			if (process->phils[i]->fed
 				< (unsigned int)process->eat_freq)
@@ -80,20 +82,20 @@ stop flag is set. Returns true if a philosopher was killed.*/
 static bool	eternal_sleep(t_phil *phil)
 {
 	time_t	time;
-	
+
 	time = get_time_in_ms();
 	if ((time - phil->last_fed) >= phil->process->t_2_die)
 	{
 		stop_simulation_flag(phil->process, true);
 		status_report(phil, true, DIED);
 		pthread_mutex_unlock(&phil->dinner_time_lock);
-		return(true);
+		return (true);
 	}
-	return(false);
+	return (false);
 }
 
 /*a function to check whether the simulation has finished.*/
-bool sim_stopped(t_process *process)
+bool	sim_stopped(t_process *process)
 {
 	bool	flag;
 
@@ -102,5 +104,5 @@ bool sim_stopped(t_process *process)
 	if (process->stop == true)
 		flag = true;
 	pthread_mutex_unlock(&process->stop_lock);
-	return(flag);
+	return (flag);
 }

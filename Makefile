@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+         #
+#    By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/14 11:20:02 by anniegraetz       #+#    #+#              #
-#    Updated: 2022/10/14 11:24:01 by anniegraetz      ###   ########.fr        #
+#    Updated: 2022/10/24 13:58:39 by agraetz          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philosophers
+NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror  -pthread -Iheader/
 
@@ -25,11 +25,11 @@ SRCS = srcs/main.c \
 all:
 	$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
 
-clean:
+clean: fclean
 
-fclean: clean
+fclean:
 	rm -rf $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re                                                                                                                                                                                                                                                                                                    

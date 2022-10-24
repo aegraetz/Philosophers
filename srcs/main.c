@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
+/*   By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 09:01:25 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:35:06 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:49:20 by agraetz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static bool	spaghetti_time(t_process *process);
 static void	spaghetti_finished(t_process *process);
-
 
 int	main(int argc, char **argv)
 {
@@ -24,27 +23,28 @@ int	main(int argc, char **argv)
 	if (argc - 1 < 4 || argc - 1 > 5)
 	{
 		printf("ERROR: incorrect no of arguments \n");
-		return(0);
+		return (0);
 	}
 	if (!input_check(argc, argv))
-		return(0);
+		return (0);
 	process = init_process(argc, argv, 1);
 	if (!process)
 	{
 		printf("ERROR: unable to initialise process \n");
-		return(0);
+		return (0);
 	}
 	if (!spaghetti_time(process))
 	{
 		printf("Something went wrong! \n");
-		return(0);
+		return (0);
 	}
 	spaghetti_finished(process);
-	return(0);
+	return (0);
 }
 
-/* Starts the philosophers process. Timer begins and threads are created for 
-each philosopher and a death thread for detecting when a philosopher has died */
+/* Starts the philosophers process. Timer begins and threads 
+are created for each philosopher and a death thread for
+detecting when a philosopher has died */
 static bool	spaghetti_time(t_process *process)
 {
 	unsigned int	i;
@@ -54,7 +54,7 @@ static bool	spaghetti_time(t_process *process)
 	while (i < process->no_phils)
 	{
 		if (pthread_create(&process->phils[i]->thread, NULL,
-							&philosophise, process->phils[i]) != 0)
+				&philosophise, process->phils[i]) != 0)
 		{
 			printf("ERROR: Could not create thread.\n");
 			return (false);
@@ -63,16 +63,17 @@ static bool	spaghetti_time(t_process *process)
 	}
 	if (process->no_phils > 1)
 	{
-		if (pthread_create(&process->death, NULL,
-							&death, process) != 0)
-			{
-				printf("ERROR: Could not create thread.\n");
-				return (false);
-			}
+		if (pthread_create(&process->death, NULL, &death, process) != 0)
+		{
+			printf("ERROR: Could not create thread.\n");
+			return (false);
+		}
 	}
 	return (true);
 }
 
+/* waits for all threads to be joined then destroys
+mutexes and frees allocated mem */
 static void	spaghetti_finished(t_process *process)
 {
 	unsigned int	i;

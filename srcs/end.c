@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anniegraetz <anniegraetz@student.42.fr>    +#+  +:+       +#+        */
+/*   By: agraetz <agraetz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 10:00:04 by anniegraetz       #+#    #+#             */
-/*   Updated: 2022/10/14 11:49:17 by anniegraetz      ###   ########.fr       */
+/*   Updated: 2022/10/24 13:49:18 by agraetz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phil.h"
 
 /*destory all mutexes*/
-void	destroy_mutexes(t_process * process)
+void	destroy_mutexes(t_process *process)
 {
 	unsigned int	i;
 
@@ -34,7 +34,7 @@ void	*free_process(t_process *process)
 	unsigned int	i;
 
 	if (!process)
-		return(0);
+		return (0);
 	if (process->fork_locks != NULL)
 		free(process->fork_locks);
 	if (process->phils != NULL)
@@ -49,7 +49,7 @@ void	*free_process(t_process *process)
 		free(process->phils);
 	}
 	free(process);
-	return(0);
+	return (0);
 }
 
 void	*error_null(t_process *process)
